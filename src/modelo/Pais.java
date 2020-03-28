@@ -12,12 +12,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 /**
  *
  * @author walte_6095blj
  */
 @Entity
+@IdClass(value = PaisPk.class)
 public class Pais implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,6 +27,7 @@ public class Pais implements Serializable {
     @Id
     private int codigoPais;
     
+    @Id
     @Column(name = "nombrePais", nullable = false)
     private String nombrePais;
   
