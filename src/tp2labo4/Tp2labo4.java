@@ -15,7 +15,35 @@ public class Tp2labo4 {
 
     //Trabajo Practico Numero 2 de Laboratorio IV hecho por Walter Julian Gutierrez Caligaris Legajo:45997
     public static void main(String[] args) {
+        try{
+            persistiendoBD();
+        }catch(Exception e){
+            System.out.println("Oops! An error has ocurrer while the program was running. Check the code or try again!"); 
+        }
+    }
 
+    //Metodo para hacer peticion WEB y leer el JSON
+    public static String peticionHttp(String urljson) throws Exception {
+        StringBuilder resultado = new StringBuilder();
+
+        URL url = new URL(urljson);
+
+        HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+        conexion.setRequestMethod("GET");
+
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
+        String linea;
+
+        while ((linea = rd.readLine()) != null) {
+            resultado.append(linea);
+        }
+
+        rd.close();
+        return resultado.toString();
+    }
+    
+    //Metodo para utilizar JPA y persistir la Base de Datos mientras leemos el JSON
+    public static void persistiendoBD(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("unidadpersistencia");
         int contador = 0;
         String resultado = "";
@@ -53,27 +81,5 @@ public class Tp2labo4 {
         }
         System.out.println("Paises persistidos: " + contador);
         emf.close();
-
     }
-
-    //Metodo para hacer peticion WEB y leer el JSON
-    public static String peticionHttp(String urljson) throws Exception {
-        StringBuilder resultado = new StringBuilder();
-
-        URL url = new URL(urljson);
-
-        HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
-        conexion.setRequestMethod("GET");
-
-        BufferedReader rd = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
-        String linea;
-
-        while ((linea = rd.readLine()) != null) {
-            resultado.append(linea);
-        }
-
-        rd.close();
-        return resultado.toString();
-    }
-
 }
